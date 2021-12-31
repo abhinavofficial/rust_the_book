@@ -1,1 +1,1 @@
-"# rust_the_book" 
+# rust_the_book
