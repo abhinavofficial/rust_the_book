@@ -1,4 +1,3 @@
-
 pub mod guessing_game {
     use rand::Rng;
     use std::cmp::Ordering;
