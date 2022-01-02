@@ -24,7 +24,7 @@ pub mod guessing_game {
                     continue;
                 }
             };
-            trial = trial + 1;
+            trial += 1;
 
             println!(
                 "You guessed: {}. You have already tried {} times",
