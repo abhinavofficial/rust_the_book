@@ -1,6 +1,8 @@
 mod guessing_game;
 mod ownership;
 mod rectangle_area_calculator;
+mod playing_with_enum;
+mod utility_functions;
 
 use std::env;
 

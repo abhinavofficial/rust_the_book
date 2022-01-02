@@ -70,3 +70,11 @@ It’s possible for structs to store references to data owned by something else,
 ### Using dbg! macro
 If we annotate a struct with `#[derive(Debug)]`, we can get a lot of useful debug information. This would help understand what the code is doing at the runtime. See example in rectangle_area_calculator.
 Read more about Attributes at ../doc/rust/html/reference/attributes.html and Derivable attribute at ../doc/rust/html/book/appendix-03-derivable-traits.html.
+
+_Rust doesn’t have an equivalent to the -> operator; instead, Rust has a feature called automatic referencing and dereferencing. Calling methods is one of the few places in Rust that has this behavior._
+
+_Here’s how it works: when you call a method with object.something(), Rust automatically adds in &, &mut, or * so object matches the signature of the method. In other words, the following are the same:_
+```p1.distance(&p2);
+(&p1).distance(&p2);
+```
+_The first one looks much cleaner. This automatic referencing behavior works because methods have a clear receiver—the type of self. Given the receiver and name of a method, Rust can figure out definitively whether the method is reading (&self), mutating (&mut self), or consuming (self). The fact that Rust makes borrowing implicit for method receivers is a big part of making ownership ergonomic in practice._
