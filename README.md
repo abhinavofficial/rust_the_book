@@ -78,3 +78,14 @@ _Here’s how it works: when you call a method with object.something(), Rust aut
 (&p1).distance(&p2);
 ```
 _The first one looks much cleaner. This automatic referencing behavior works because methods have a clear receiver—the type of self. Given the receiver and name of a method, Rust can figure out definitively whether the method is reading (&self), mutating (&mut self), or consuming (self). The fact that Rust makes borrowing implicit for method receivers is a big part of making ownership ergonomic in practice._
+
+## Using Struct
+By default, HashMap uses a hashing function called SipHash (https://en.wikipedia.org/wiki/SipHash) that can provide resistance to Denial of Service (DoS) attacks involving hash tables1. This is not the fastest hashing algorithm available, but the trade-off for better security that comes with the drop in performance is worth it. If you profile your code and find that the default hash function is too slow for your purposes, you can switch to another function by specifying a different hasher. A hasher is a type that implements the BuildHasher trait.We don’t necessarily have to implement our own hasher from scratch; crates.io has libraries shared by other Rust users that provide hashers implementing many common hashing algorithms.
+
+> To Learn
+>- Module std::collections - C:/Users/abhin/.rustup/toolchains/stable-x86_64-pc-windows-msvc/share/doc/rust/html/std/collections/index.html
+>- Struct std::vec::Vec - C:/Users/abhin/.rustup/toolchains/stable-x86_64-pc-windows-msvc/share/doc/rust/html/std/vec/struct.Vec.html
+>- Enum std::option::Option - C:/Users/abhin/.rustup/toolchains/stable-x86_64-pc-windows-msvc/share/doc/rust/html/std/option/enum.Option.html
+>- The Rust Reference - C:/Users/abhin/.rustup/toolchains/stable-x86_64-pc-windows-msvc/share/doc/rust/html/reference/introduction.html
+
+> At the end (may be after 6 months or so) - writing unsafe Rust - C:/Users/abhin/.rustup/toolchains/stable-x86_64-pc-windows-msvc/share/doc/rust/html/nomicon/intro.html
