@@ -1,4 +1,10 @@
 pub mod ownership {
+    //It’s possible for structs to store references to data owned by
+    // something else, but to do so, requires the use of lifetimes,
+    // TODO a Rust feature that we’ll discuss in Chapter 10
+    // Lifetimes ensure that the data referenced by a struct
+    // is valid for as long as the struct is.
+
     pub fn string_slicing(which_word: u8, string: &str) -> &str {
         let bytes = string.as_bytes();
         let mut word_counter: u8 = 0;

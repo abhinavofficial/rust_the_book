@@ -3,6 +3,7 @@ mod ownership;
 mod rectangle_area_calculator;
 mod playing_with_enum;
 mod utility_functions;
+mod error_handling;
 
 use std::env;
 
@@ -14,6 +15,7 @@ fn main() {
         "1" => "Guessing Game",
         "2" => "Ownership",
         "3" => "Area Calculator",
+        "4" => "Error Handling",
         _ => "Invalid module",
     };
     println!("You are now learning module: {}", learning_module);
@@ -30,6 +32,7 @@ fn main() {
             }
         },
         "Area Calculator" => rectangle_area_calculator::rectangle_area_calculator::calculate(),
+        "Error Handling" => error_handling::error_handling::file_error_handling(),
         "Invalid module" => println!("You opted for invalid module"),
         _ => (),
     };

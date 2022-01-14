@@ -65,7 +65,7 @@ You can also define structs that don’t have any fields! These are called unit-
 
 ### Ownership of data
 In the User struct definition, we used the owned String type rather than the &str string slice type. This is a deliberate choice because we want instances of this struct to own all of its data and for that data to be valid for as long as the entire struct is valid.
-It’s possible for structs to store references to data owned by something else, but to do so, requires the use of lifetimes, a Rust feature that we’ll discuss in Chapter 10. Lifetimes ensure that the data referenced by a struct is valid for as long as the struct is.
+It’s possible for structs to store references to data owned by something else, but to do so, requires the use of lifetimes, a Rust feature that we’ll discuss in Chapter 10 (//TODO). Lifetimes ensure that the data referenced by a struct is valid for as long as the struct is.
 
 ### Using dbg! macro
 If we annotate a struct with `#[derive(Debug)]`, we can get a lot of useful debug information. This would help understand what the code is doing at the runtime. See example in rectangle_area_calculator.
@@ -89,3 +89,49 @@ By default, HashMap uses a hashing function called SipHash (https://en.wikipedia
 >- The Rust Reference - C:/Users/abhin/.rustup/toolchains/stable-x86_64-pc-windows-msvc/share/doc/rust/html/reference/introduction.html
 
 > At the end (may be after 6 months or so) - writing unsafe Rust - C:/Users/abhin/.rustup/toolchains/stable-x86_64-pc-windows-msvc/share/doc/rust/html/nomicon/intro.html
+
+## Error Handling
+Two major category - Recoverable and Unrecoverable
+Recoverable are managed through Result<T, E>
+Unrecoverable via panic! macro
+
+### Unrecoverable error - Panic
+By default, when a panic occurs, the program starts unwinding, which means Rust walks back up the stack and cleans up the data from each function it encounters. But this walking back and cleanup is a lot of work. The alternative is to immediately abort, which ends the program without cleaning up. Memory that the program was using will then need to be cleaned up by the operating system. If in your project you need to make the resulting binary as small as possible, you can switch from unwinding to aborting upon a panic by adding panic = 'abort' to the appropriate [profile] sections in your Cargo.toml file. For example, if you want to abort on panic in release mode, add this:
+```
+[profile.release]
+panic = 'abort'
+```
+To get more details, we can set up RUST_BACKTRACE to anything other than 0. Example, `$ RUST_BACKTRACE=1 cargo run`. In order to get backtraces, debug mode must be enabled. It is by default enabled when using `cargo build` or `cargo run` with the `--release` flag.
+
+## Recoverable error with Result enum
+```
+enum Result<T, E> {
+Ok(T),
+Err(E),
+```
+There are excellent ways to use Result enum. If handling the error within the function itself
+- Matching on Err variant.
+- Using error.kind() to capture ErrorKind.
+- Using unwrap_or_else() function
+- Using unwrap() or expect() function
+
+For propagating error. You can use above matching and return the error as-is or custom Error. You can also use ? operator.
+
+Please see their implementation in error_handling module.
+
+### To panic! or Not to panic!
+This is quite an important decision especially in the library code. Once you panic, you lose all opportunity to recover from the failure.
+
+You want your code to panic in the following conditions -
+- When creating examples, prototype code, and tests. Use unwrap and expect for panic.
+- When you have more information that the compiler and you are sure that there is no possibility of Err
+- When your code relying on assumptions, guarantee, contract or invariant is broken
+- When you cannot do anything to recover from the error.
+
+You want to return Result instead of panic in the following conditions -
+- When the failure is expected or is generally possible
+- when the code performs operations on values, it should verify for valid values and panic only if they invalid (example - out-of-bound).
+- In case of invalid input to a contract, panic is a reasonable choice but it needs to be appropriately documented else, try to recover.
+- 
+
+

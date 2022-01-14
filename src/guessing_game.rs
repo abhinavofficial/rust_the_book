@@ -1,7 +1,23 @@
 pub mod guessing_game {
+    use core::panicking::panic;
     use rand::Rng;
     use std::cmp::Ordering;
     use std::io;
+    struct Guess {
+        value: i32,
+    }
+
+    impl Guess {
+        fn new(value: i32) -> Guess {
+            if value < 0 || value > 100 {
+                panic!("Guess value must be between 1 and 100, got {}.", value);
+            }
+            Guess { value}
+        }
+        pub fn value(&self) -> i32 {
+            self.value
+        }
+    }
 
     pub fn play() {
         println!("Guess a number between 1 to 100. I have selected a secret number. If you guess it right, you win. Else keep trying!!!");
@@ -17,8 +33,8 @@ pub mod guessing_game {
                 .read_line(&mut guess)
                 .expect("Failed to read line");
 
-            let guess: u32 = match guess.trim().parse() {
-                Ok(num) => num,
+             match guess.trim().parse() {
+                Ok(num) => Guess::new(num),
                 Err(_) => {
                     println!("No hanky panky");
                     continue;
@@ -31,7 +47,7 @@ pub mod guessing_game {
                 guess, trial
             );
 
-            match guess.cmp(&secret_number) {
+            match Guess::value(& Guess { 10 }).cmp(&secret_number) {
                 Ordering::Less => println!("Too small!"),
                 Ordering::Greater => println!("Too big!"),
                 Ordering::Equal => {
