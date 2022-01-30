@@ -1,10 +1,6 @@
-[package]
-name = "guessing_game"
-version = "0.1.0"
-authors = ["Abhinav Kumar <abhinav.official@gmail.com"]
-edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]
-rand = "0.8.4"
+[workspace]
+members = [
+    "base",
+    "generics",
+    "first_serversetup"
+]
